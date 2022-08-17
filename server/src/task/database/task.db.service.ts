@@ -15,7 +15,9 @@ export class TaskDatabaseService {
 
   async addTask(addTaskDto: AddTaskDto): Promise<Task> {
     try {
-      const taskToSave = new this.taskModel(addTaskDto);
+      const taskToCreate = { text: addTaskDto.text, isDone: false };
+
+      const taskToSave = new this.taskModel(taskToCreate);
       const newTask = await taskToSave.save();
 
       return newTask as Task;

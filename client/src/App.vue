@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
+import TodoListComponent from "./components/TodoListComponent.vue";
 </script>
 
 <template>
-  <HelloWorld :msg="`My message`" />
+  <Suspense>
+    <TodoListComponent />
+
+    <template #fallback> Loading... </template>
+  </Suspense>
 </template>
 
 <style scoped></style>

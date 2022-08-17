@@ -1,0 +1,19 @@
+<script setup lang="ts">
+import Task from "../models/interface/task.interface";
+import TaskUnitComponent from "./TaskUnitComponent.vue";
+
+defineProps<{ pendingTasks: Task[] }>();
+
+const emit = defineEmits(["taskRechecked", "taskRemoved"]);
+</script>
+
+<template>
+  <div>
+    <h3>PENDING TASKS</h3>
+    <div v-for="task in pendingTasks" :key="JSON.stringify(task.id)">
+      <TaskUnitComponent :task="task" />
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
