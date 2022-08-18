@@ -51,44 +51,40 @@ doneTasks.value = storage.doneTasks;
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .mainContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 40rem;
-}
 
-.listContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
+  > .listContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 
-.totalWidth {
-  width: 40%;
-}
+    > .totalWidth {
+      width: 40%;
 
-.completedDiv {
-  display: flex;
-  width: 17%;
-  background-color: rgba(67, 116, 221, 0.391);
-  border-color: #464757;
-  padding-left: 5px;
-  border-radius: 5px;
-}
+      > .completedDiv {
+        display: flex;
+        width: 20%;
+        background-color: rgba(67, 116, 221, 0.391);
+        border-color: #464757;
+        padding-left: 5px;
+        border-radius: 5px;
 
-.tickSymbol {
-  padding-right: 5px;
-}
+        > .tickSymbol {
+          padding-right: 5px;
 
-.tickSymbol::after {
-  content: "\2713";
-}
-
-hr {
-  border-color: #464757;
+          &:after {
+            content: "\2713";
+          }
+        }
+      }
+    }
+  }
 }
 </style>

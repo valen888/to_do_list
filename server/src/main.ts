@@ -1,10 +1,14 @@
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigConstants } from './common/constants/config.constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // const port = config.get<string>(ConfigConstants.port) || 5000;
-  const port = 3000;
+
+  const config = app.get(ConfigService);
+
+  const port = config.get<string>(ConfigConstants.port) || 3000;
 
   app.enableCors();
 

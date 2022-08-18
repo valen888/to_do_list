@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AddTaskDto {
+export default class AddTaskDto {
   @IsNotEmpty()
   @IsString()
   text: string;

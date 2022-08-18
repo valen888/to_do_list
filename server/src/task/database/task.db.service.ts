@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AddTaskDto } from '../dto/add-task.dto';
-import { DeleteTaskDto } from '../dto/delete-task.dto';
-import { UpdateTaskDto } from '../dto/update-task.dto';
+import AddTaskDto from '../dto/add-task.dto';
+import DeleteTaskDto from '../dto/delete-task.dto';
+import UpdateTaskDto from '../dto/update-task.dto';
 import Task from '../interfaces/task.interface';
 import { MongoTask } from './schemas/task.schema';
 

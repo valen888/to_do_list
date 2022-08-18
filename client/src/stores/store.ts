@@ -9,7 +9,9 @@ export const store = defineStore("main", {
   state: () => {
     const tasks: Task[] = [];
 
-    return { tasks };
+    const axiosBaseUrl: string = import.meta.env.VITE_AXIOS_BASE_URL;
+
+    return { tasks, axiosBaseUrl };
   },
 
   getters: {
@@ -24,14 +26,14 @@ export const store = defineStore("main", {
 
   actions: {
     async initTasks() {
-      const tasks = await axios.get("http://localhost:3000/todo/getTasks");
+      const tasks = await axios.get(`${this.axiosBaseUrl}todo/getTasks`);
 
       this.tasks = tasks.data;
     },
 
     async addNewTask(addTaskDto: AddTaskDto) {
       const response = await axios.post(
-        "http://localhost:3000/todo/addTask",
+        `${this.axiosBaseUrl}todo/addTask`,
         addTaskDto
       );
 
@@ -48,7 +50,7 @@ export const store = defineStore("main", {
       };
 
       const response = await axios.put(
-        "http://localhost:3000/todo/updateTask",
+        `${this.axiosBaseUrl}todo/updateTask`,
         updateTaskDto
       );
 
@@ -64,7 +66,7 @@ export const store = defineStore("main", {
         id: taskId,
       };
 
-      await axios.delete("http://localhost:3000/todo/deleteTask", {
+      await axios.delete(`${this.axiosBaseUrl}todo/deleteTask`, {
         data: deleteTaskDto,
       });
 
@@ -75,7 +77,7 @@ export const store = defineStore("main", {
 
     async updateTaskText(task: UpdateTaskDto) {
       const response = await axios.put(
-        "http://localhost:3000/todo/updateTask",
+        `${this.axiosBaseUrl}todo/updateTask`,
         task
       );
 

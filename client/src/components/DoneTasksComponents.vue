@@ -12,5 +12,3 @@ defineProps<{ doneTasks: Task[] }>();
     </div>
   </div>
 </template>
-
-<style scoped></style>

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { TaskDatabaseService } from './database/task.db.service';
-import { AddTaskDto } from './dto/add-task.dto';
-import { DeleteTaskDto } from './dto/delete-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import AddTaskDto from './dto/add-task.dto';
+import DeleteTaskDto from './dto/delete-task.dto';
+import UpdateTaskDto from './dto/update-task.dto';
 import Task from './interfaces/task.interface';
 
 @Injectable()

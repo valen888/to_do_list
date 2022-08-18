@@ -8,8 +8,12 @@ const props = defineProps<{ task: Task }>();
 const emitter: any = inject("emitter");
 
 let isBeingRenamed = ref(false);
-
 let taskText = ref("");
+let inputText: any = ref(null);
+
+onMounted(() => {
+  taskText.value = props.task.text;
+});
 
 function handleCheckedTask(task: Task) {
   emitter.emit("taskRechecked", task);
@@ -18,12 +22,6 @@ function handleCheckedTask(task: Task) {
 function handleRemoveClick(taskId: string) {
   emitter.emit("taskRemoved", taskId);
 }
-
-const inputText: any = ref(null);
-
-onMounted(() => {
-  taskText.value = props.task.text;
-});
 
 function openRenameMode() {
   isBeingRenamed.value = true;
@@ -51,14 +49,14 @@ async function closeRenameMode(task: Task) {
 </script>
 
 <template>
-  <div class="taskUnit">
+  <div class="flexRow taskUnit">
     <input
       type="checkbox"
       :checked="task.isDone"
       @click="handleCheckedTask(task)"
     />
 
-    <div v-if="!isBeingRenamed" class="textField">
+    <div v-if="!isBeingRenamed" class="flexRow textField">
       <span
         @dblclick="openRenameMode"
         :style="task.isDone ? `text-decoration: line-through` : ''"
@@ -67,7 +65,7 @@ async function closeRenameMode(task: Task) {
       >
     </div>
 
-    <div v-else class="inputBox">
+    <div v-else class="flexRow inputBox">
       <input
         ref="inputText"
         class="inputField"
@@ -82,46 +80,8 @@ async function closeRenameMode(task: Task) {
   </div>
 </template>
 
-<style scoped>
-.crossSymbol {
-  display: flex;
-  align-items: center;
-}
-.crossSymbol::after {
-  content: "\00d7";
-  font-size: 2rem;
-}
-.textField {
-  width: 90%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.inputBox {
-  width: 90%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.inputField {
-  background-color: #464757;
-  border: 0px;
-  color: white;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  outline: none;
-}
-
+<style lang="scss" scoped>
 .taskUnit {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
   border: 1px solid;
   border-color: #464757;
@@ -131,5 +91,33 @@ select:focus {
   margin-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+
+  > .textField {
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+  }
+
+  > .crossSymbol {
+    display: flex;
+    align-items: center;
+
+    &:after {
+      content: "\00d7";
+      font-size: 2rem;
+    }
+  }
+
+  > .inputBox {
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+
+    > .inputField {
+      background-color: #464757;
+      border: 0px;
+      color: white;
+    }
+  }
 }
 </style>

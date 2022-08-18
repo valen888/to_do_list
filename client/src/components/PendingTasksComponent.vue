@@ -3,8 +3,6 @@ import Task from "../models/interface/task.interface";
 import TaskUnitComponent from "./TaskUnitComponent.vue";
 
 defineProps<{ pendingTasks: Task[] }>();
-
-const emit = defineEmits(["taskRechecked", "taskRemoved"]);
 </script>
 
 <template>
@@ -14,5 +12,3 @@ const emit = defineEmits(["taskRechecked", "taskRemoved"]);
     </div>
   </div>
 </template>
-
-<style scoped></style>

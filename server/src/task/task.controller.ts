@@ -7,9 +7,9 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { AddTaskDto } from './dto/add-task.dto';
-import { DeleteTaskDto } from './dto/delete-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import AddTaskDto from './dto/add-task.dto';
+import DeleteTaskDto from './dto/delete-task.dto';
+import UpdateTaskDto from './dto/update-task.dto';
 import Task from './interfaces/task.interface';
 import { TaskService } from './task.service';
 

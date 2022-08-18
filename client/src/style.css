@@ -18,3 +18,18 @@
 
 
  }
+
+ input:focus,
+ textarea:focus,
+ select:focus {
+   outline: none;
+ }
+
+ .flexRow {
+   display: flex;
+   flex-direction: row;
+ }
+
+ hr {
+   border-color: #464757;
+ }

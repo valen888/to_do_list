@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class DeleteTaskDto {
+export default class DeleteTaskDto {
   @IsNotEmpty()
   @IsString()
   id: string;
