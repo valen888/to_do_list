@@ -9,7 +9,6 @@ const emit = defineEmits(["taskRechecked", "taskRemoved"]);
 
 <template>
   <div>
-    <h3>PENDING TASKS</h3>
     <div v-for="task in pendingTasks" :key="JSON.stringify(task.id)">
       <TaskUnitComponent :task="task" />
     </div>

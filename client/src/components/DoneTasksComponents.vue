@@ -7,7 +7,6 @@ defineProps<{ doneTasks: Task[] }>();
 
 <template>
   <div>
-    <h3>DONE TASKS</h3>
     <div v-for="task in doneTasks" :key="JSON.stringify(task.id)">
       <TaskUnitComponent :task="task" />
     </div>

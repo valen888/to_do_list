@@ -3,11 +3,13 @@ import TodoListComponent from "./components/TodoListComponent.vue";
 </script>
 
 <template>
-  <Suspense>
-    <TodoListComponent />
+  <div class="background">
+    <Suspense>
+      <TodoListComponent />
 
-    <template #fallback> Loading... </template>
-  </Suspense>
+      <template #fallback> Loading... </template>
+    </Suspense>
+  </div>
 </template>
 
-<style scoped></style>
+<style scss></style>

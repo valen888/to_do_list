@@ -33,12 +33,62 @@ doneTasks.value = storage.doneTasks;
 </script>
 
 <template>
-  <div>
-    <h3>TO DO LIST</h3>
-    <AddTaskComponent />
-    <PendingTasksComponent :pendingTasks="pendingTasks" />
-    <DoneTasksComponents :doneTasks="doneTasks" />
+  <div class="mainContainer">
+    <div class="listContainer">
+      <h3>To-do list</h3>
+      <AddTaskComponent class="totalWidth" />
+      <br />
+      <PendingTasksComponent :pendingTasks="pendingTasks" class="totalWidth" />
+      <hr class="totalWidth" />
+      <div class="totalWidth">
+        <div class="completedDiv">
+          <div class="tickSymbol"></div>
+          Completed
+        </div>
+      </div>
+      <DoneTasksComponents :doneTasks="doneTasks" class="totalWidth" />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40rem;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.totalWidth {
+  width: 40%;
+}
+
+.completedDiv {
+  display: flex;
+  width: 17%;
+  background-color: rgba(67, 116, 221, 0.391);
+  border-color: #464757;
+  padding-left: 5px;
+  border-radius: 5px;
+}
+
+.tickSymbol {
+  padding-right: 5px;
+}
+
+.tickSymbol::after {
+  content: "\2713";
+}
+
+hr {
+  border-color: #464757;
+}
+</style>

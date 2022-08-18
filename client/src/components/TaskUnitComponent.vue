@@ -51,26 +51,85 @@ async function closeRenameMode(task: Task) {
 </script>
 
 <template>
-  <div>
+  <div class="taskUnit">
     <input
       type="checkbox"
       :checked="task.isDone"
       @click="handleCheckedTask(task)"
     />
 
-    <span v-if="!isBeingRenamed">
-      <span @dblclick="openRenameMode"> {{ task.text }}</span>
-      <span @click="handleRemoveClick(task.id)"> &#10006;</span></span
-    >
-    <input
-      ref="inputText"
-      v-else
-      type="text"
-      v-model="taskText"
-      @keyup.enter="closeRenameMode(task)"
-      @blur="closeRenameMode(task)"
-    />
+    <div v-if="!isBeingRenamed" class="textField">
+      <span
+        @dblclick="openRenameMode"
+        :style="task.isDone ? `text-decoration: line-through` : ''"
+      >
+        {{ task.text }}</span
+      >
+    </div>
+
+    <div v-else class="inputBox">
+      <input
+        ref="inputText"
+        class="inputField"
+        type="text"
+        v-model="taskText"
+        @keyup.enter="closeRenameMode(task)"
+        @blur="closeRenameMode(task)"
+      />
+    </div>
+
+    <div @click="handleRemoveClick(task.id)" class="crossSymbol"></div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.crossSymbol {
+  display: flex;
+  align-items: center;
+}
+.crossSymbol::after {
+  content: "\00d7";
+  font-size: 2rem;
+}
+.textField {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputBox {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inputField {
+  background-color: #464757;
+  border: 0px;
+  color: white;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+.taskUnit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid;
+  border-color: #464757;
+  background-color: #464757;
+  border-radius: 5px;
+  height: 50px;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+</style>

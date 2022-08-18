@@ -3,6 +3,7 @@ import axios from "axios";
 import Task from "../models/interface/task.interface";
 import UpdateTaskDto from "../models/dto/update-task.dto";
 import DeleteTaskDto from "../models/dto/delete-task.dto";
+import AddTaskDto from "../models/dto/add-task.dto";
 
 export const store = defineStore("main", {
   state: () => {
@@ -12,10 +13,6 @@ export const store = defineStore("main", {
   },
 
   getters: {
-    getTasks: (state) => {
-      return state.tasks;
-    },
-
     pendingTasks: (state) => {
       return state.tasks.filter((t) => t.isDone === false);
     },
@@ -32,8 +29,15 @@ export const store = defineStore("main", {
       this.tasks = tasks.data;
     },
 
-    addNewTask(task: Task) {
-      this.tasks.push(task);
+    async addNewTask(addTaskDto: AddTaskDto) {
+      const response = await axios.post(
+        "http://localhost:3000/todo/addTask",
+        addTaskDto
+      );
+
+      const newTask = response.data;
+
+      this.tasks.push(newTask);
     },
 
     async changeTaskStatus(task: Task) {
