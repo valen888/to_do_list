@@ -6,6 +6,7 @@ import AddTaskDto from "../models/dto/add-task.dto";
 const storage = store();
 
 let text = ref("");
+let input: any = ref("");
 
 async function addTask() {
   const textValue = text.value;
@@ -15,6 +16,8 @@ async function addTask() {
   };
 
   await storage.addNewTask(addTaskDto);
+
+  input.value.value = "";
 }
 </script>
 
@@ -23,11 +26,13 @@ async function addTask() {
     <div class="plusSymbol" @click="addTask"></div>
 
     <input
+      ref="input"
       type="text"
       name="name"
       v-model="text"
       placeholder="Add a task"
       class="inputField"
+      @keyup.enter="addTask"
     />
   </div>
 </template>
