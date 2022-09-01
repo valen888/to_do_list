@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import AddTaskDto from '../dto/add-task.dto';
 import DeleteTaskDto from '../dto/delete-task.dto';
 import UpdateTaskDto from '../dto/update-task.dto';
-import Task from '../interfaces/task.interface';
+import ITask from '../interfaces/task.interface';
 import { MongoTask } from './schemas/task.schema';
 
 export class TaskDatabaseService {
@@ -13,14 +13,14 @@ export class TaskDatabaseService {
     private readonly taskModel: Model<MongoTask>,
   ) {}
 
-  async addTask(addTaskDto: AddTaskDto): Promise<Task> {
+  async addTask(addTaskDto: AddTaskDto): Promise<ITask> {
     try {
       const taskToCreate = { text: addTaskDto.text, isDone: false };
 
       const taskToSave = new this.taskModel(taskToCreate);
       const newTask = await taskToSave.save();
 
-      return newTask as Task;
+      return newTask as ITask;
     } catch (error) {
       throw new HttpException(
         `Failed to add new task, info: ${error.message}`,
@@ -29,7 +29,7 @@ export class TaskDatabaseService {
     }
   }
 
-  async getTask(taskId: string): Promise<Task> {
+  async getTask(taskId: string): Promise<ITask> {
     try {
       const task = await this.taskModel.findById(taskId).exec();
 
@@ -39,7 +39,7 @@ export class TaskDatabaseService {
           HttpStatus.BAD_REQUEST,
         );
       } else {
-        return task as Task;
+        return task as ITask;
       }
     } catch (error) {
       throw new HttpException(
@@ -49,11 +49,11 @@ export class TaskDatabaseService {
     }
   }
 
-  async getTasks(): Promise<Task[]> {
+  async getTasks(): Promise<ITask[]> {
     try {
       const sites = await this.taskModel.find();
 
-      return sites as Task[];
+      return sites as ITask[];
     } catch (error) {
       throw new HttpException(
         `Failed to get all tasks, info: ${error.message}`,
@@ -62,7 +62,7 @@ export class TaskDatabaseService {
     }
   }
 
-  async updateTask(updateTaskDto: UpdateTaskDto): Promise<Task> {
+  async updateTask(updateTaskDto: UpdateTaskDto): Promise<ITask> {
     try {
       const updatedTask = await this.taskModel
         .findByIdAndUpdate(
@@ -75,7 +75,7 @@ export class TaskDatabaseService {
         )
         .exec();
 
-      return updatedTask as Task;
+      return updatedTask as ITask;
     } catch (error) {
       throw new HttpException(
         `Failed to update task with id ${updateTaskDto.id}, info: ${error.message}`,

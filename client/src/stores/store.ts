@@ -1,17 +1,15 @@
 import { defineStore } from "pinia";
-import axios from "axios";
-import Task from "../models/interface/task.interface";
+import ITask from "../models/interface/task.interface";
 import UpdateTaskDto from "../models/dto/update-task.dto";
 import DeleteTaskDto from "../models/dto/delete-task.dto";
 import AddTaskDto from "../models/dto/add-task.dto";
+import axiosClient from "../plugins/axios";
 
 export const store = defineStore("main", {
   state: () => {
-    const tasks: Task[] = [];
+    const tasks: ITask[] = [];
 
-    const axiosBaseUrl: string = import.meta.env.VITE_AXIOS_BASE_URL;
-
-    return { tasks, axiosBaseUrl };
+    return { tasks };
   },
 
   getters: {
@@ -26,66 +24,92 @@ export const store = defineStore("main", {
 
   actions: {
     async initTasks() {
-      const tasks = await axios.get(`${this.axiosBaseUrl}todo/getTasks`);
+      try {
+        let tasks: ITask[];
 
-      this.tasks = tasks.data;
+        const axiosResponse = await axiosClient.get(`todos/tasks`);
+
+        tasks = axiosResponse.data;
+
+        this.tasks = tasks;
+      } catch (error: any) {
+        throw new Error(`Failed to get all tasks, info: ${error.message}`);
+      }
     },
 
     async addNewTask(addTaskDto: AddTaskDto) {
-      const response = await axios.post(
-        `${this.axiosBaseUrl}todo/addTask`,
-        addTaskDto
-      );
+      try {
+        const axiosResponse = await axiosClient.post(
+          `todos/task`,
+          addTaskDto
+        );
 
-      const newTask = response.data;
+        const newTask: ITask = axiosResponse.data;
 
-      this.tasks.push(newTask);
+        this.tasks.push(newTask);
+      } catch (error: any) {
+        throw new Error(`Failed to add new tasks, info: ${error.message}`);
+      }
     },
 
-    async changeTaskStatus(task: Task) {
-      const updateTaskDto: UpdateTaskDto = {
-        id: task.id,
-        text: task.text,
-        isDone: !task.isDone,
-      };
+    async changeTaskStatus(task: ITask) {
+      try {
+        const updateTaskDto: UpdateTaskDto = {
+          ...task,
+          isDone: !task.isDone,
+        };
 
-      const response = await axios.put(
-        `${this.axiosBaseUrl}todo/updateTask`,
-        updateTaskDto
-      );
+        const axiosResponse = await axiosClient.put(
+          `todos/task`,
+          updateTaskDto
+        );
 
-      const updatedTask = response.data;
+        const updatedTask: ITask = axiosResponse.data;
 
-      const taskIndex = this.tasks.findIndex((t) => t.id === task.id);
+        const taskIndex = this.tasks.findIndex((t) => t.id === task.id);
 
-      this.tasks[taskIndex] = updatedTask;
+        this.tasks[taskIndex] = updatedTask;
+      } catch (error: any) {
+        throw new Error(
+          `Failed to change task ${task.id} status, info: ${error.message}`
+        );
+      }
     },
 
     async removeTask(taskId: string) {
-      const deleteTaskDto: DeleteTaskDto = {
-        id: taskId,
-      };
+      try {
+        const deleteTaskDto: DeleteTaskDto = {
+          id: taskId,
+        };
 
-      await axios.delete(`${this.axiosBaseUrl}todo/deleteTask`, {
-        data: deleteTaskDto,
-      });
+        await axiosClient.delete(`todos/task`, {
+          data: deleteTaskDto,
+        });
 
-      const taskIndex = this.tasks.findIndex((t) => t.id === taskId);
+        const taskIndex = this.tasks.findIndex((t) => t.id === taskId);
 
-      this.tasks.splice(taskIndex, 1);
+        this.tasks.splice(taskIndex, 1);
+      } catch (error: any) {
+        throw new Error(
+          `Failed to removeTask ${taskId} status, info: ${error.message}`
+        );
+      }
     },
 
     async updateTaskText(task: UpdateTaskDto) {
-      const response = await axios.put(
-        `${this.axiosBaseUrl}todo/updateTask`,
-        task
-      );
+      try {
+        const response = await axiosClient.put(`todos/task`, task);
 
-      const updatedTask = response.data;
+        const updatedTask: ITask = response.data;
 
-      const taskIndex = this.tasks.findIndex((t) => t.id === task.id);
+        const taskIndex = this.tasks.findIndex((t) => t.id === task.id);
 
-      this.tasks[taskIndex] = updatedTask;
+        this.tasks[taskIndex] = updatedTask;
+      } catch (error: any) {
+        throw new Error(
+          `Failed to removeTask ${task.id} status, info: ${error.message}`
+        );
+      }
     },
   },
 });

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import { store } from "../stores/store";
 import AddTaskDto from "../models/dto/add-task.dto";
 
 const storage = store();
 
-let text = ref("");
-let input: any = ref("");
+let text: Ref<string> = ref("");
 
 async function addTask() {
   const textValue = text.value;
@@ -16,8 +15,6 @@ async function addTask() {
   };
 
   await storage.addNewTask(addTaskDto);
-
-  input.value.value = "";
 }
 </script>
 
@@ -26,7 +23,6 @@ async function addTask() {
     <div class="plusSymbol" @click="addTask"></div>
 
     <input
-      ref="input"
       type="text"
       name="name"
       v-model="text"

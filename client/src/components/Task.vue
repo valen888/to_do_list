@@ -1,15 +1,16 @@
 <script setup props lang="ts">
-import { inject, nextTick, onMounted, ref } from "vue";
+import { Emitter, EventType } from "mitt";
+import { inject, nextTick, onMounted, Ref, ref } from "vue";
 import UpdateTaskDto from "../models/dto/update-task.dto";
 import Task from "../models/interface/task.interface";
 
+const emitter: Emitter<Record<EventType, unknown>> = inject("emitter")!;
+
 const props = defineProps<{ task: Task }>();
 
-const emitter: any = inject("emitter");
-
-let isBeingRenamed = ref(false);
-let taskText = ref("");
-let inputText: any = ref(null);
+let isBeingRenamed: Ref<boolean> = ref(false);
+let taskText: Ref<string> = ref("");
+let inputText: Ref<any> = ref(null);
 
 onMounted(() => {
   taskText.value = props.task.text;

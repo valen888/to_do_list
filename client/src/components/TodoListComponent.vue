@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import Task from "../models/interface/task.interface";
-import PendingTasksComponent from "./PendingTasksComponent.vue";
-import AddTaskComponent from "./AddTaskComponent.vue";
-import DoneTasksComponents from "./DoneTasksComponents.vue";
+import ITask from "../models/interface/task.interface";
 import { inject } from "vue";
-
 import { store } from "../stores/store";
 import { storeToRefs } from "pinia";
 import UpdateTaskDto from "../models/dto/update-task.dto";
+import { Emitter, EventType } from "mitt";
+import AddTask from "./AddTask.vue";
+import Tasks from "./Tasks.vue";
 
-const emitter: any = inject("emitter");
+const emitter: any = inject("emitter")!;
 
 const storage = store();
 const { pendingTasks, doneTasks } = storeToRefs(storage);
 
-emitter.on("taskRechecked", (task: Task) => {
+emitter.on("taskRechecked", (task: ITask) => {
   storage.changeTaskStatus(task);
 });
 
@@ -36,9 +35,13 @@ doneTasks.value = storage.doneTasks;
   <div class="mainContainer">
     <div class="listContainer">
       <h3>To-do list</h3>
-      <AddTaskComponent class="totalWidth" />
+
+      <AddTask class="totalWidth" />
+
       <br />
-      <PendingTasksComponent :pendingTasks="pendingTasks" class="totalWidth" />
+
+      <Tasks :tasks="pendingTasks" class="totalWidth" />
+
       <hr class="totalWidth" />
       <div class="totalWidth">
         <div class="completedDiv">
@@ -46,7 +49,8 @@ doneTasks.value = storage.doneTasks;
           Completed
         </div>
       </div>
-      <DoneTasksComponents :doneTasks="doneTasks" class="totalWidth" />
+
+      <Tasks :tasks="doneTasks" class="totalWidth" />
     </div>
   </div>
 </template>
